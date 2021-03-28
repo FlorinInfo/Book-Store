@@ -11,4 +11,6 @@ router.get('/', productsFunctionality.getShopProducts);
 
 router.get("/products", productsFunctionality.getProductsUser)
 
+router.get("/cart", productsFunctionality.getCart)
+
 module.exports = router;

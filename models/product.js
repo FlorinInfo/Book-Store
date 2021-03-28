@@ -5,8 +5,12 @@ const fs = require("fs");
 const { json } = require("body-parser");
 
 module.exports = class Product{
-    constructor(t){
+    constructor(t, imageUrl, price, description){
         this.title = t;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.description = description;
+        this.id = Math.random();
     }
 
     addProduct(){

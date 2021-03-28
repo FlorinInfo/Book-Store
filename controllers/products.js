@@ -7,7 +7,7 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-    const product = new Product(req.body.title);
+    const product = new Product(req.body.title, req.body.imageUrl, req.body.price, req.body.description);
     product.addProduct();
     // console.log(products);
     res.redirect('/');
@@ -23,3 +23,13 @@ exports.getShopProducts = (req, res, next) => {
   exports.getProductsUser = (req, res, next) => {
         res.render('shop/products',{docTitle:"Products",path:"products"})
   };
+
+  exports.getCart = (req, res, next) => {
+    res.render('shop/cart',{docTitle:"Cart",path:"cart"})
+};
+
+exports.getAdminProducts = (req, res, next) => {
+  Product.FetchProducts((products)=>{
+      res.render('admin/adminProducts',{docTitle:"Admin Products",path:"adminProducts",prods:products})
+  })
+};
