@@ -11,6 +11,7 @@ module.exports = class Product{
         this.price = price;
         this.description = description;
         this.id = Math.random();
+        this.addedCart = false;
     }
 
     addProduct(){

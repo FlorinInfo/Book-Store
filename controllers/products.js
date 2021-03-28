@@ -33,3 +33,17 @@ exports.getAdminProducts = (req, res, next) => {
       res.render('admin/adminProducts',{docTitle:"Admin Products",path:"adminProducts",prods:products})
   })
 };
+
+exports.getProductDetails = (req, res, next) => {
+  const id = req.params.productId;
+  console.log(id);
+  Product.FetchProducts((products)=>{
+      let productFound = products.filter(product => product.id == id);
+      res.render('shop/product-details',{docTitle:`Product ${productFound[0].id}`,path:"productDetails",product:productFound[0]})
+  })
+};
+
+exports.postAddToCart = (req, res, next) => {
+  console.log(req.body.title);
+  let products;
+};
