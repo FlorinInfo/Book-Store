@@ -1,5 +1,6 @@
 
 const Product = require("../models/product");
+const Cart = require('../models/cart.js');
 
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
@@ -28,6 +29,14 @@ exports.getShopProducts = (req, res, next) => {
     res.render('shop/cart',{docTitle:"Cart",path:"cart"})
 };
 
+exports.postCart = (req, res, next) =>{
+  const id = req.body.prodId;
+  Product.findById(id, product=>{
+    Cart.addProduct(id, Number(product.price));
+  })
+  res.redirect("/cart");
+}
+
 exports.getAdminProducts = (req, res, next) => {
   Product.FetchProducts((products)=>{
       res.render('admin/adminProducts',{docTitle:"Admin Products",path:"adminProducts",prods:products})
@@ -41,9 +50,4 @@ exports.getProductDetails = (req, res, next) => {
       let productFound = products.filter(product => product.id == id);
       res.render('shop/product-details',{docTitle:`Product ${productFound[0].id}`,path:"productDetails",product:productFound[0]})
   })
-};
-
-exports.postAddToCart = (req, res, next) => {
-  console.log(req.body.title);
-  let products;
 };

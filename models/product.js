@@ -28,6 +28,19 @@ module.exports = class Product{
         })
     }
 
+    static findById(id, cb) {
+        let products = [];
+        const p  = path.join(rootDir, 'data', 'products.json');
+        fs.readFile(p, (err,fileContent) => {
+            if(!err){
+                products = JSON.parse(fileContent);
+                const product = products.find(p => p.id == id);
+                cb(product);
+            }
+        })
+
+    }
+
     static FetchProducts(cb){
         const p  = path.join(rootDir, 'data', 'products.json');
         fs.readFile(p, (err, fileContent)=>{
