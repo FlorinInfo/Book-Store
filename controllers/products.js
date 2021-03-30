@@ -17,12 +17,13 @@ exports.postAddProduct = (req, res, next) => {
 exports.getShopProducts = (req, res, next) => {
     // console.log("Shop", adminData.products);
     Product.FetchProducts((products)=>{
+      console.log(products)
         res.render('shop/product-list',{prods:products,docTitle:"My Shop",path:"shop"})
     });    
   };
 
   exports.getProductsUser = (req, res, next) => {
-        res.render('shop/products',{docTitle:"Products",path:"products"})
+      res.render('shop/products',{docTitle:"Products",path:"products"})
   };
 
   exports.getCart = (req, res, next) => {

@@ -44,10 +44,13 @@ module.exports = class Product{
     static FetchProducts(cb){
         const p  = path.join(rootDir, 'data', 'products.json');
         fs.readFile(p, (err, fileContent)=>{
-            if(err){
+            if(err&&!JSON.parse(fileContent)){
+                console.log("eroare: ", err)
                 cb([]);
             }
-           cb(JSON.parse(fileContent));
+            else{
+                cb(JSON.parse(fileContent));
+            }
         })
     }
 }
