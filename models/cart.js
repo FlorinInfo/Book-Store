@@ -40,4 +40,34 @@ module.exports = class Cart{
         })
 
     }
+
+    static FetchProductsCart(cb){
+        const p  = path.join(rootDir, 'data', 'cartProducts.json');
+        fs.readFile(p, (err, fileContent)=>{
+            if(err){
+                cb(null);
+            }
+            else{
+                cb(JSON.parse(fileContent));
+            }
+        })
+    }
+
+    static deleteProduct(id){
+        const p  = path.join(rootDir, 'data', 'cartProducts.json');
+        fs.readFile(p, (err, fileContent)=>{
+            if(err){
+                console.log(err);
+            }
+            else{
+                let products = JSON.parse(fileContent);
+                const index = products.products.findIndex(pr=>pr.id == id);
+                products.quantityPrice -=  products.products[index].qty;
+                products.products.splice(index,1);
+                fs.writeFile(p, JSON.stringify(products), err=>{
+                    console.log(err);
+                })            
+            }
+        })
+    }
 }
