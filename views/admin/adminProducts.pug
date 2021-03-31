@@ -16,5 +16,5 @@ block content
                         h2.product__price #{product.price} $
                         p.product__description #{product.description}
                     .card__actions
-                        button.btn Edit 
+                        a.btn(href=`/admin/edit-product/${product.id}`) Edit 
                         button.btn Delete

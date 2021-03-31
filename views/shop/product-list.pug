@@ -15,8 +15,8 @@ block content
                     .card__content
                         h2.product__price #{product.price} $
                         p.product__description #{product.description}
-                    .card__actions
-                        a.btn(href=`/product/${product.id}`) Details
+                    .card__actions__product
+                        a.btn(href=`/product/${product.id}` style="margin-right:10px;") Details
                         form(action="/cart" method="POST" type="submit") 
                             input(type="hidden", name="prodId" value=product.id)
                             button.btn Add to cart

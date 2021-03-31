@@ -77,3 +77,25 @@ exports.getProductDetails = (req, res, next) => {
       res.render('shop/product-details',{docTitle:`Product ${productFound[0].id}`,path:"productDetails",product:productFound[0]})
   })
 };
+
+exports.getEditProduct = (req, res, next) =>{
+  const id = req.params.prodId;
+  Product.findById(id, product=>{
+    console.log(product)
+    res.render('admin/editProducts',{PageTitle:"Add Product",path:"admin", product:product});
+  })
+}
+
+exports.postEditProduct = (req, res, next) =>{
+  let product = {
+    id:req.params.prodId,
+    title : req.body.title,
+    imageUrl : req.body.imageUrl,
+    price : req.body.price,
+    description : req.body.description
+  }
+
+  Product.editProduct(req.params.prodId, product);
+
+  res.redirect("/admin/products")
+}

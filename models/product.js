@@ -28,6 +28,21 @@ module.exports = class Product{
         })
     }
 
+    static editProduct(id, product){
+        let products = [];
+        const p  = path.join(rootDir, 'data', 'products.json');
+        fs.readFile(p, (err,fileContent) => {
+            if(!err){
+                products = JSON.parse(fileContent);
+            }
+            let index = products.findIndex(pr=>pr.id == id);
+            products[index] = product;
+            fs.writeFile(p, JSON.stringify(products), (err)=>{
+                console.log(err);
+            })
+        })
+    }
+
     static findById(id, cb) {
         let products = [];
         const p  = path.join(rootDir, 'data', 'products.json');

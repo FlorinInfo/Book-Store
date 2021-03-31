@@ -17,8 +17,8 @@ block content
                             h2.product__price #{product.products.price} $
                             h3.product__price Quantity: #{product.qty}
                             p.product__description #{product.products.description}
-                        .card__actions
-                            a.btn(href=`/product/${product.products.id}`) Details
+                        .card__actions__product
+                            a.btn(href=`/product/${product.products.id}` style="margin-right:10px;") Details
                             form(action="/cart-delete" method="POST" type="submit")
                                 input(type="hidden" name="prodId" value=product.products.id)
                                 button.btn Delete 
