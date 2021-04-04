@@ -9,43 +9,43 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const product = new Product(req.body.title, req.body.imageUrl, req.body.price, req.body.description);
-    product.addProduct();
+    product.addProduct().then(() => {
+      res.redirect('/');
+    }).catch((err) => {
+      console.log(err);
+    });
     // console.log(products);
-    res.redirect('/');
+   
   };
 
 exports.getShopProducts = (req, res, next) => {
-    // console.log("Shop", adminData.products);
-    Product.FetchProducts((products)=>{
-      console.log(products)
-        res.render('shop/product-list',{prods:products,docTitle:"My Shop",path:"shop"})
-    });    
-  };
-
-  exports.getProductsUser = (req, res, next) => {
-      res.render('shop/products',{docTitle:"Products",path:"products"})
+    Product.FetchProducts().then(([rows,fieldsData]) => {
+      res.render('shop/product-list',{prods:rows,docTitle:"My Shop",path:"shop"})
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   exports.getCart = (req, res, next) => {
-    Cart.FetchProductsCart(cart =>{
-      if(cart){
-        Product.FetchProducts(products=>{
-            let productsFiltered = [];
-            for(product of cart.products){
-                let founded = products.find(pr => pr.id==product.id);
-                if(founded){
-                  productsFiltered.push({products:founded,qty:product.qty});
-                }
-            }
-            console.log(productsFiltered);
-            res.render('shop/cart',{docTitle:"Cart",path:"cart",prods:productsFiltered})
-        })
-    }
-    else{
-      res.render('shop/cart',{docTitle:"Cart",path:"cart",prods:[]})
-    }
+    // Cart.FetchProductsCart(cart =>{
+    //   if(cart){
+    //     Product.FetchProducts(products=>{
+    //         let productsFiltered = [];
+    //         for(product of cart.products){
+    //             let founded = products.find(pr => pr.id==product.id);
+    //             if(founded){
+    //               productsFiltered.push({products:founded,qty:product.qty});
+    //             }
+    //         }
+    //         console.log(productsFiltered);
+    //         res.render('shop/cart',{docTitle:"Cart",path:"cart",prods:productsFiltered})
+    //     })
+    // }
+    // else{
+    //   res.render('shop/cart',{docTitle:"Cart",path:"cart",prods:[]})
+    // }
       
-    })
+    // })
     
 };
 
@@ -64,18 +64,22 @@ exports.postCart = (req, res, next) =>{
 }
 
 exports.getAdminProducts = (req, res, next) => {
-  Product.FetchProducts((products)=>{
-      res.render('admin/adminProducts',{docTitle:"Admin Products",path:"adminProducts",prods:products})
-  })
+  Product.FetchProducts().then(([rows, fieldsData]) => {
+    res.render('admin/adminProducts',{docTitle:"Admin Products",path:"adminProducts",prods:rows})
+  }).catch((err) => {
+    console.log(err);
+  });
 };
 
 exports.getProductDetails = (req, res, next) => {
   const id = req.params.productId;
   console.log(id);
-  Product.FetchProducts((products)=>{
-      let productFound = products.filter(product => product.id == id);
-      res.render('shop/product-details',{docTitle:`Product ${productFound[0].id}`,path:"productDetails",product:productFound[0]})
+  Product.findById(id).then(([product])=>{
+    res.render('shop/product-details',{docTitle:`Product ${product[0].id}`,path:"productDetails",product:product[0]})
   })
+  .catch( err=>
+    console.log(err)
+  );
 };
 
 exports.getEditProduct = (req, res, next) =>{
@@ -97,5 +101,5 @@ exports.postEditProduct = (req, res, next) =>{
 
   Product.editProduct(req.params.prodId, product);
 
-  res.redirect("/admin/products")
+  res.redirect("/admin/products~")
 }
